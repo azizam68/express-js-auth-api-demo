@@ -1,28 +1,101 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Express API</title>
+
   <style>
-    /* ton CSS */
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      line-height: 1.6;
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    code {
+      background: #f1f1f1;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .status {
+      font-weight: 600;
+    }
+
+    .ok {
+      color: #16803c;
+    }
+
+    .error {
+      color: #c62828;
+    }
+
+    li {
+      margin: 0.75rem 0;
+    }
   </style>
+
 </head>
 
 <body>
   <h1>Express API</h1>
 
-  <p>API REST développée avec Node.js et Express.js.</p>
+  <p>API REST développée avec Node.js, Express.js et TypeScript.</p>
 
-  <p>● API en ligne</p>
+  <div id="status">
+    Vérification de l'état de l'API...
+  </div>
 
   <h2>API</h2>
 
-  <p>
-    Endpoint de test : <code>GET /api</code>
-  </p>
   <ul>
-      <li><code>GET /api/health</code> - Vérifie l'état de l'API</li>
+    <li>
+      <a href="/api/health">
+        <code>GET /api/health</code>
+      </a>
+      — Vérifie l'état de l'API et de la base de données.
+    </li>
   </ul>
+
+  <script>
+    async function checkHealth() {
+      const status = document.querySelector("#status");
+
+      try {
+        const response = await fetch("/api/health");
+        const data = await response.json();
+
+        if (response.ok && data.status === "ok") {
+          status.innerHTML = `
+            <p class="status ok">● API en ligne</p>
+            <p class="status ok">● Base de données disponible</p>
+          `;
+        } else {
+          status.innerHTML = `
+            <p class="status ok">● API en ligne</p>
+            <p class="status error">● Base de données indisponible</p>
+          `;
+        }
+      } catch (error) {
+        status.innerHTML = `
+          <p class="status error">● API indisponible</p>
+        `;
+      }
+    }
+
+    checkHealth();
+  </script>
+
 </body>
 </html>
