@@ -44,6 +44,9 @@ jspm_packages/
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
+# TypeScript
+dist/
+
 # TypeScript cache
 *.tsbuildinfo
 
@@ -141,3 +144,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Drizzle files
+drizzle/meta/
