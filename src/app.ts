@@ -1,8 +1,8 @@
 import "dotenv/config"
 import express from "express"
 import path from "path"
-import healthRoutes from "./routes/health.routes.ts"
-import { notFound } from "./middlewares/notFound.ts"
+import healthRoutes from "./routes/health.routes.js"
+import { notFound } from "./middlewares/notFound.js"
 
 const __dirname = path.resolve(".")
 

@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm"
 import type { Request, Response } from "express"
-import { db } from "../config/database.ts"
+import { db } from "../config/database.js"
 
 export async function getHealth(_req: Request, res: Response) {
   try {
