@@ -4,61 +4,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Express API</title>
-
+  <title>Express JS Auth API Demo</title>
   <style>
     body {
       font-family: system-ui, sans-serif;
       max-width: 800px;
       margin: 0 auto;
-      padding: 3rem 2rem;
+      padding: 2rem;
       line-height: 1.6;
     }
 
-    h1 {
-      margin-bottom: 0.5rem;
-    }
+```
+h1 {
+  margin-bottom: 0.5rem;
+}
 
-    code {
-      background: #f1f1f1;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-    }
+h2 {
+  margin-top: 2rem;
+}
 
-    a {
-      color: inherit;
-    }
+code {
+  background: #f3f3f3;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
 
-    .status {
-      font-weight: 600;
-    }
+a {
+  text-decoration: none;
+}
 
-    .ok {
-      color: #16803c;
-    }
+a:hover {
+  text-decoration: underline;
+}
 
-    .error {
-      color: #c62828;
-    }
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #e8f5e9;
+}
+```
 
-    li {
-      margin: 0.75rem 0;
-    }
   </style>
-
 </head>
 
 <body>
-  <h1>Express API</h1>
+  <header>
+    <h1>Express JS Auth API Demo</h1>
 
-  <p>API REST développée avec Node.js, Express.js et TypeScript.</p>
+```
+<p>
+  API REST développée avec Node.js, Express.js, TypeScript,
+  Drizzle ORM et PostgreSQL.
+</p>
 
-  <div id="status">
-    Vérification de l'état de l'API...
-  </div>
+<p class="status">● API en ligne</p>
+```
 
-  <h2>API</h2>
+  </header>
 
+  <main>
+    <section>
+      <h2>API</h2>
+
+```
   <ul>
     <li>
       <a href="/api/health">
@@ -67,35 +76,60 @@
       — Vérifie l'état de l'API et de la base de données.
     </li>
   </ul>
+</section>
 
-  <script>
-    async function checkHealth() {
-      const status = document.querySelector("#status");
+<section>
+  <h2>Users</h2>
 
-      try {
-        const response = await fetch("/api/health");
-        const data = await response.json();
+  <ul>
+    <li>
+      <a href="/api/users">
+        <code>GET /api/users</code>
+      </a>
+      — Récupère la liste des utilisateurs.
+    </li>
 
-        if (response.ok && data.status === "ok") {
-          status.innerHTML = `
-            <p class="status ok">● API en ligne</p>
-            <p class="status ok">● Base de données disponible</p>
-          `;
-        } else {
-          status.innerHTML = `
-            <p class="status ok">● API en ligne</p>
-            <p class="status error">● Base de données indisponible</p>
-          `;
-        }
-      } catch (error) {
-        status.innerHTML = `
-          <p class="status error">● API indisponible</p>
-        `;
-      }
-    }
+    <li>
+      <code>GET /api/users/:id</code>
+      — Récupère un utilisateur.
+    </li>
 
-    checkHealth();
-  </script>
+    <li>
+      <code>POST /api/users</code>
+      — Crée un utilisateur.
+    </li>
 
+    <li>
+      <code>PUT /api/users/:id</code>
+      — Remplace un utilisateur.
+    </li>
+
+    <li>
+      <code>PATCH /api/users/:id</code>
+      — Modifie partiellement un utilisateur.
+    </li>
+
+    <li>
+      <code>DELETE /api/users/:id</code>
+      — Supprime un utilisateur.
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Technologies</h2>
+
+  <ul>
+    <li>Node.js</li>
+    <li>Express.js</li>
+    <li>TypeScript</li>
+    <li>Drizzle ORM</li>
+    <li>PostgreSQL / Supabase</li>
+    <li>Zod</li>
+  </ul>
+</section>
+```
+
+  </main>
 </body>
 </html>

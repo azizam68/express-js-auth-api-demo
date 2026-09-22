@@ -1,0 +1,54 @@
+### Get users
+GET http://localhost:3333/api/users
+
+
+### Create user
+POST http://localhost:3333/api/users
+Content-Type: application/json
+
+{
+  "email": "alice33@example.com"
+}
+
+
+### Invalid email
+POST http://localhost:3333/api/users
+Content-Type: application/json
+
+{
+  "email": "not-an-email"
+}
+
+
+### Missing email
+POST http://localhost:3333/api/users
+Content-Type: application/json
+
+{}
+
+### Get user by ID
+GET http://localhost:3333/api/users/8dcc3f31-d9ff-47c7-81e0-92c592c70140
+
+### Get user by Wrong ID 1 - format of ID is wrong
+GET http://localhost:3333/api/users/1
+
+### Get user by Wrong ID 2
+GET http://localhost:3333/api/users/000000-d9ff-47c7-81e0-92c592c70140
+
+
+### update user
+PATCH http://localhost:3333/api/users/8dcc3f31-d9ff-47c7-81e0-92c592c70140
+Content-Type: application/json
+
+{
+  "email": "new@example.com"
+}
+### update user
+PUT http://localhost:3333/api/users/6fec1040-798b-44f0-bbe1-3506f6c214cd
+Content-Type: application/json
+
+{
+  "email": "paut@example.com"
+}
+### delete user
+DELETE http://localhost:3333/api/users/965952f8-b74a-4488-a18c-d105850e0ca6

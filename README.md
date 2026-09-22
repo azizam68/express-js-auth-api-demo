@@ -52,3 +52,9 @@ npm start
 | ------- | ------------- | -------------- |
 | `GET`   | `/`           | Page d'accueil |
 | `GET`   | `/api/health` | État de l'API  |
+| `GET`   | `/api/users`  | Liste les users  |
+| `GET`   | `/api/users:id`  | Liste 1 user  |
+| `POST`   | `/api/users`  | creation d'un user  |
+| `PUT`   | `/api/users:id`  | remplace un user  |
+| `PATCH`   | `/api/users:id`  | modification d'un user  |
+| `DELETE`   | `/api/users:id`  | supprime 1 user  |
