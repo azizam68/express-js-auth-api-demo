@@ -7,7 +7,7 @@ import healthRoutes from "./routes/health.routes.js"
 import usersRouter from "./routes/users.routes.js"
 
 import { notFound } from "./middlewares/notFound.js"
-import { errorMiddleware } from "./middleware/error.middleware.js"
+import { errorMiddleware } from "./middlewares/error.middleware.js"
 
 const __dirname = path.resolve(".")
 
