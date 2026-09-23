@@ -6,3 +6,7 @@ Content-Type: application/json
   "email": "admin@example.com",
   "password": "Admin123!"
 }
+
+### GET /api/auth/me
+GET http://localhost:3333/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YzgwMWJmOC0zMDY5LTRiYWUtODZlNy0wYzEzOGQ4M2RlYjAiLCJpYXQiOjE3OTAyMDE2MTcsImV4cCI6MTc5MDIwMjUxN30.un9JIpf1IpDF3UD1FWYiOBdSVxdx-OTelQ2ED3p9k90

@@ -1,17 +1,10 @@
 import type { Request, Response } from "express"
 import { db } from "../config/database.js"
 import { users } from "../db/schema.js"
+import { publicUserColumns } from "../db/selections.js"
 import { createUserSchema, userIdSchema, updateUserSchema, replaceUserSchema } from "../validators/user.validator.js"
 import { eq } from "drizzle-orm"
 import argon2 from "argon2"
-
-const publicUserColumns = {
-  id: users.id,
-  email: users.email,
-  isActive: users.isActive,
-  createdAt: users.createdAt,
-  updatedAt: users.updatedAt
-}
 
 function isUniqueViolation(error: unknown): boolean {
   if (typeof error !== "object" || error === null) {

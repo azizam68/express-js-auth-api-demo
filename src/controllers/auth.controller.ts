@@ -5,6 +5,7 @@ import argon2 from "argon2"
 import { createAccessToken } from "../auth/jwt.js"
 import { db } from "../config/database.js"
 import { users } from "../db/schema.js"
+import { publicUserColumns } from "../db/selections.js"
 import { loginSchema } from "../validators/auth.validator.js"
 
 export async function login(req: Request, res: Response) {
@@ -51,7 +52,24 @@ export async function login(req: Request, res: Response) {
   // JWT à ajouter ensuite
   const accessToken = createAccessToken(user.id)
 
-res.json({
-  accessToken
-})
+  res.json({
+    accessToken
+  })
+}
+
+export async function me(req: Request, res: Response) {
+  const [user] = await db
+    .select(publicUserColumns)
+    .from(users)
+    .where(eq(users.id, req.user!.id))
+
+  if (!user) {
+    res.status(404).json({
+      error: "User not found"
+    })
+
+    return
+  }
+
+  res.json(user)
 }
