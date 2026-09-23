@@ -23,12 +23,12 @@ export async function login(req: Request, res: Response) {
   const [user] = await db
     .select({
       id: users.id,
-      passwordHash: users.passwordHash
+      passwordHash: users.passwordHash,
+      isActive: users.isActive
     })
     .from(users)
     .where(eq(users.email, result.data.email))
-
-  if (!user) {
+    if (!user || !user.isActive) {
     res.status(401).json({
       error: "Invalid credentials"
     })
