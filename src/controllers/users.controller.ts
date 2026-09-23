@@ -3,9 +3,39 @@ import { db } from "../config/database.js"
 import { users } from "../db/schema.js"
 import { createUserSchema, userIdSchema, updateUserSchema, replaceUserSchema } from "../validators/user.validator.js"
 import { eq } from "drizzle-orm"
+import argon2 from "argon2"
+
+const publicUserColumns = {
+  id: users.id,
+  email: users.email,
+  isActive: users.isActive,
+  createdAt: users.createdAt,
+  updatedAt: users.updatedAt
+}
+
+function isUniqueViolation(error: unknown): boolean {
+  if (typeof error !== "object" || error === null) {
+    return false
+  }
+
+  if (!("cause" in error)) {
+    return false
+  }
+
+  const cause = error.cause
+
+  return (
+    typeof cause === "object" &&
+    cause !== null &&
+    "code" in cause &&
+    cause.code === "23505"
+  )
+}
 
 export async function getUsers(_req: Request, res: Response) {
-  const result = await db.select().from(users)
+  const result = await db
+    .select(publicUserColumns)
+    .from(users)
 
   res.json(result)
 }
@@ -23,7 +53,7 @@ export async function getUserById(req: Request, res: Response) {
   }
 
   const [user] = await db
-    .select()
+    .select(publicUserColumns)
     .from(users)
     .where(eq(users.id, result.data.id))
 
@@ -50,13 +80,16 @@ export async function createUser(req: Request, res: Response) {
     return
   }
 
-try {
+  const passwordHash = await argon2.hash(result.data.password)
+
+  try {
     const [user] = await db
       .insert(users)
       .values({
-        email: result.data.email
+        email: result.data.email,
+        passwordHash
       })
-      .returning()
+      .returning(publicUserColumns)
 
     res.status(201).json(user)
   } catch (error) {
@@ -94,111 +127,112 @@ export async function updateUser(req: Request, res: Response) {
 
     return
   }
+  let user
+  if ("email" in bodyResult.data) {
+    ; [user] = await db
+      .update(users)
+      .set({
+        email: bodyResult.data.email
+      })
+      .where(eq(users.id, idResult.data.id))
+      .returning(publicUserColumns)
+    }
+   else if ("password" in bodyResult.data) {
+      const passwordHash = await argon2.hash(bodyResult.data.password)
 
-  const [user] = await db
-    .update(users)
-    .set({
-      email: bodyResult.data.email
-    })
-    .where(eq(users.id, idResult.data.id))
-    .returning()
+      ; [user] = await db
+        .update(users)
+        .set({
+          passwordHash
+        })
+        .where(eq(users.id, idResult.data.id))
+        .returning(publicUserColumns)
+    }
 
-  if (!user) {
-    res.status(404).json({
-      error: "User not found"
-    })
 
-    return
-  }
+    if (!user) {
+      res.status(404).json({
+        error: "User not found"
+      })
 
-  res.json(user)
+      return
+    }
+
+    res.json(user)
 }
 
 export async function deleteUser(req: Request, res: Response) {
-  const result = userIdSchema.safeParse(req.params)
+    const result = userIdSchema.safeParse(req.params)
 
-  if (!result.success) {
-    res.status(400).json({
-      error: "Invalid user ID",
-      details: result.error.issues
-    })
+    if (!result.success) {
+      res.status(400).json({
+        error: "Invalid user ID",
+        details: result.error.issues
+      })
 
-    return
-  }
+      return
+    }
 
-  const [user] = await db
-    .delete(users)
-    .where(eq(users.id, result.data.id))
-    .returning()
+    const [user] = await db
+      .delete(users)
+      .where(eq(users.id, result.data.id))
+      .returning({
+    id: users.id
+  })
 
-  if (!user) {
-    res.status(404).json({
-      error: "User not found"
-    })
+    if (!user) {
+      res.status(404).json({
+        error: "User not found"
+      })
 
-    return
-  }
+      return
+    }
 
-  res.status(204).send()
+    res.status(204).send()
 }
 
 export async function replaceUser(req: Request, res: Response) {
-  const idResult = userIdSchema.safeParse(req.params)
+    const idResult = userIdSchema.safeParse(req.params)
 
-  if (!idResult.success) {
-    res.status(400).json({
-      error: "Invalid user ID",
-      details: idResult.error.issues
-    })
+    if (!idResult.success) {
+      res.status(400).json({
+        error: "Invalid user ID",
+        details: idResult.error.issues
+      })
 
-    return
-  }
+      return
+    }
 
-  const bodyResult = replaceUserSchema.safeParse(req.body)
+    const bodyResult = replaceUserSchema.safeParse(req.body)
 
-  if (!bodyResult.success) {
-    res.status(400).json({
-      error: "Invalid request",
-      details: bodyResult.error.issues
-    })
+    if (!bodyResult.success) {
+      res.status(400).json({
+        error: "Invalid request",
+        details: bodyResult.error.issues
+      })
 
-    return
-  }
+      return
+    }
+    
+    const passwordHash = await argon2.hash(bodyResult.data.password)
 
-  const [user] = await db
-    .update(users)
-    .set({
-      email: bodyResult.data.email
-    })
-    .where(eq(users.id, idResult.data.id))
-    .returning()
+    const [user] = await db
+      .update(users)
+      .set({
+        email: bodyResult.data.email,
+        passwordHash,
+        isActive: bodyResult.data.isActive,
+      })
+      .where(eq(users.id, idResult.data.id))
+      .returning(publicUserColumns)
 
-  if (!user) {
-    res.status(404).json({
-      error: "User not found"
-    })
+    if (!user) {
+      res.status(404).json({
+        error: "User not found"
+      })
 
-    return
-  }
+      return
+    }
 
-  res.json(user)
-}
-
-function isUniqueViolation(error: unknown): boolean {
-  if (typeof error !== "object" || error === null) {
-    return false
-  }
-
-  if (!("cause" in error)) {
-    return false
-  }
-
-  const cause = error.cause
-
-  return (
-    typeof cause === "object" &&
-    cause !== null &&
-    "code" in cause &&
-    cause.code === "23505"
-  )
+    res.json(user)
 }
