@@ -4,14 +4,15 @@
   "description": "Demo auth API using Express JS",
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
-    "test:run": "vitest run",
-    "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "check": "npm run build && npm run test:run",
     "db:generate": "dotenv -e .env -- drizzle-kit generate",
     "db:migrate": "dotenv -e .env -- drizzle-kit migrate",
-    "db:migrate:prod": "dotenv -e .env.production -- drizzle-kit migrate"
+    "db:migrate:prod": "dotenv -e .env.production -- drizzle-kit migrate",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "repository": {
     "type": "git",
