@@ -43,7 +43,26 @@ a:hover {
   border-radius: 999px;
   background: #e8f5e9;
 }
-```
+
+.indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.indicator.up {
+  background-color: green;
+}
+
+.indicator.down {
+  background-color: red;
+}
+
+.indicator.unknown {
+  background-color: gray;
+}
 
   </style>
 </head>
@@ -52,14 +71,23 @@ a:hover {
   <header>
     <h1>Express JS Auth API Demo</h1>
 
-```
 <p>
   API REST développée avec Node.js, Express.js, TypeScript,
   Drizzle ORM et PostgreSQL.
 </p>
+<div class="status">
+  <p>
+    <span id="server-indicator" class="indicator unknown"></span>
+    Serveur :
+    <strong id="server-status">Vérification...</strong>
+  </p>
 
-<p class="status">● API en ligne</p>
-```
+  <p>
+    <span id="db-indicator" class="indicator unknown"></span>
+    Base de données :
+    <strong id="db-status">Vérification...</strong>
+  </p>
+</div>
 
   </header>
 
@@ -67,7 +95,6 @@ a:hover {
     <section>
       <h2>API</h2>
 
-```
   <ul>
     <li>
       <a href="/api/health">
@@ -128,8 +155,43 @@ a:hover {
     <li>Zod</li>
   </ul>
 </section>
-```
 
   </main>
+  <script>
+  async function checkHealth() {
+    const serverIndicator = document.getElementById("server-indicator")
+    const serverStatus = document.getElementById("server-status")
+
+    const dbIndicator = document.getElementById("db-indicator")
+    const dbStatus = document.getElementById("db-status")
+
+    try {
+      const response = await fetch("/api/health")
+      const health = await response.json()
+
+      // Le serveur HTTP répond
+      serverIndicator.className = "indicator up"
+      serverStatus.textContent = "UP"
+
+      // État de la base de données
+      if (health.database === "ok") {
+        dbIndicator.className = "indicator up"
+        dbStatus.textContent = "UP"
+      } else {
+        dbIndicator.className = "indicator down"
+        dbStatus.textContent = "DOWN"
+      }
+    } catch {
+      // Impossible de joindre Express
+      serverIndicator.className = "indicator down"
+      serverStatus.textContent = "DOWN"
+
+      dbIndicator.className = "indicator down"
+      dbStatus.textContent = "UNKNOWN"
+    }
+  }
+
+  checkHealth()
+</script>
 </body>
 </html>

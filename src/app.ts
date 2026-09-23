@@ -4,6 +4,7 @@ import path from "path"
 import healthRoutes from "./routes/health.routes.js"
 import { notFound } from "./middlewares/notFound.js"
 import usersRouter from "./routes/users.routes.js"
+import { errorMiddleware } from "./middleware/error.middleware.js"
 
 const __dirname = path.resolve(".")
 
@@ -17,6 +18,7 @@ app.use("/api", healthRoutes)
 app.use("/api/users", usersRouter)
 
 app.use(notFound)
+app.use(errorMiddleware)
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
