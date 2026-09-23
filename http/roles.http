@@ -1,0 +1,3 @@
+### Get roles
+GET http://localhost:3333/api/roles
+
