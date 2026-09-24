@@ -10,11 +10,19 @@
     "db:migrate": "dotenv -e .env -- drizzle-kit migrate",
     "db:migrate:prod": "dotenv -e .env.production -- drizzle-kit migrate",
     "db:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate",
+
     "db:seed:roles": "dotenv -e .env -- tsx seed/roles.seed.ts",
     "db:seed:users": "dotenv -e .env -- tsx seed/users.seed.ts",
     "db:seed:user-roles": "dotenv -e .env -- tsx seed/user-roles.seed.ts",
     "db:seed": "npm run db:seed:roles && npm run db:seed:users && npm run db:seed:user-roles",
+
     "db:seed:prod": "dotenv -e .env.production -- tsx seed/users.seed.ts",
+    
+    "db:seed:roles:test": "dotenv -e .env.test -- tsx seed/roles.seed.ts",
+    "db:seed:users:test": "dotenv -e .env.test -- tsx seed/users.seed.ts",
+    "db:seed:user-roles:test": "dotenv -e .env.test -- tsx seed/user-roles.seed.ts",
+    "db:seed:test": "npm run db:seed:roles && npm run db:seed:users && npm run db:seed:user-roles",
+
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
     "test": "dotenv -e .env.test -- vitest",

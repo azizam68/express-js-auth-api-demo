@@ -2,14 +2,15 @@ import { eq } from "drizzle-orm"
 
 import { db } from "../src/config/database.js"
 import { roles } from "../src/db/schema.js"
+import { ROLES } from "../src/constants/roles.js"
 
 async function seed() {
   console.log("🌱 Seeding roles...")
 
   const rolesToCreate = [
-    "admin",
-    "test",
-    "demo"
+    ROLES.ADMIN,
+    ROLES.USER,
+    ROLES.DEMO
   ]
 
   for (const name of rolesToCreate) {
