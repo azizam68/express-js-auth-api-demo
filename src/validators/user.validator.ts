@@ -23,3 +23,16 @@ export const updateUserSchema = z.union([
     password: z.string().min(8)
   })
 ])
+
+export const userIdParamsSchema = z.object({
+  id: z.uuid()
+})
+
+export const assignRoleSchema = z.object({
+  roleId: z.uuid()
+})
+
+export const deleteUserRoleSchema = z.object({
+  id: z.uuid(),
+  roleId: z.uuid()
+})
