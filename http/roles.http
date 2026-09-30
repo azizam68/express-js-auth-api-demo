@@ -1,3 +1,14 @@
-### Get roles
+### Get roles 401
 GET http://localhost:3333/api/roles
+
+
+### Get roles 403
+GET http://localhost:3333/api/roles
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3OTc0NDgsImV4cCI6MTc5MDc5ODM0OH0.B_nCdrdxYzS1ArQCi89OdCIAVygs5uNWFzFmVjCS9xI
+
+
+### Get roles 200
+GET http://localhost:3333/api/roles
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3OTc0NDgsImV4cCI6MTc5MDc5ODM0OH0.B_nCdrdxYzS1ArQCi89OdCIAVygs5uNWFzFmVjCS9xI
+
 

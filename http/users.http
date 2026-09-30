@@ -1,6 +1,13 @@
-### Get users
+### Get users 410
 GET http://localhost:3333/api/users
 
+### Get users 200 by Admin
+GET http://localhost:3333/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YzgwMWJmOC0zMDY5LTRiYWUtODZlNy0wYzEzOGQ4M2RlYjAiLCJpYXQiOjE3OTA3OTU5MDMsImV4cCI6MTc5MDc5NjgwM30.1EdUa7ds1WO_vzyF_-J_6lQM1J9lKcbvJlMYs5_LAjg
+
+### Get users 200 by User
+GET http://localhost:3333/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3OTYwMDksImV4cCI6MTc5MDc5NjkwOX0.VU7HGdktW4HI5RRFMcozEbyLCAR-0Yq8vtGaUm8Lh9E
 
 ### Create user
 POST http://localhost:3333/api/users
@@ -68,7 +75,8 @@ Content-Type: application/json
 }
 
 ### remove assigned role from a user
-DELETE /api/users/8c801bf8-3069-4bae-86e7-0c138d83deb0/roles
+DELETE http://localhost:3333/api/users/70a752ab-c1a3-452c-9cfd-c2a9df763aec/roles
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3OTc0NDgsImV4cCI6MTc5MDc5ODM0OH0.B_nCdrdxYzS1ArQCi89OdCIAVygs5uNWFzFmVjCS9xI
 Content-Type: application/json
 
 {

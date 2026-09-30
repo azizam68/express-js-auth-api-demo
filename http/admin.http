@@ -1,0 +1,10 @@
+### /api/admin GET without JWT 401
+GET http://localhost:3333/api/admin
+
+### /api/admin GET for authenticated user 403     
+GET http://localhost:3333/api/admin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3OTczOTIsImV4cCI6MTc5MDc5ODI5Mn0.h2weG66eqAl4B7DDTnSRpC-bviTJ2StJZnGMGyxqMmI
+
+### /api/admin GET for an admin 200
+GET http://localhost:3333/api/admin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YzgwMWJmOC0zMDY5LTRiYWUtODZlNy0wYzEzOGQ4M2RlYjAiLCJpYXQiOjE3OTA3OTczNTEsImV4cCI6MTc5MDc5ODI1MX0.G1rH_GVyyrWxzd6FPVJWoMtoWyU5BV_ggR07MMogU0I

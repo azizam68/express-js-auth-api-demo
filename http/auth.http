@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ### GET /api/auth/me
 GET http://localhost:3333/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3MTE4OTYsImV4cCI6MTc5MDcxMjc5Nn0.9L3h7jcOtRmwM7xtDaQlfFTzoP6r1ZLb7Fgus926Y6U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3OTc0NDgsImV4cCI6MTc5MDc5ODM0OH0.B_nCdrdxYzS1ArQCi89OdCIAVygs5uNWFzFmVjCS9xI
 
 ### GET /api/admin
 GET http://localhost:3333/api/admin
