@@ -16,7 +16,10 @@
     "db:seed:user-roles": "dotenv -e .env -- tsx seed/user-roles.seed.ts",
     "db:seed": "npm run db:seed:roles && npm run db:seed:users && npm run db:seed:user-roles",
 
-    "db:seed:prod": "dotenv -e .env.production -- tsx seed/users.seed.ts",
+    "db:seed:users:prod": "dotenv -e .env.production -- tsx seed/users.seed.ts",
+    "db:seed:roles:prod": "dotenv -e .env.production -- tsx seed/roles.seed.ts",
+    "db:seed:user-roles:prod": "dotenv -e .env.production -- tsx seed/user-roles.seed.ts",
+    "db:seed:prod": "npm run db:seed:roles:prod && npm run db:seed:users:prod && npm run db:seed:user-roles:prod",
     
     "db:seed:roles:test": "dotenv -e .env.test -- tsx seed/roles.seed.ts",
     "db:seed:users:test": "dotenv -e .env.test -- tsx seed/users.seed.ts",

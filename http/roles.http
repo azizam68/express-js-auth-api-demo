@@ -8,7 +8,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhY
 
 
 ### Get roles 200
-GET http://localhost:3333/api/roles
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3OTc0NDgsImV4cCI6MTc5MDc5ODM0OH0.B_nCdrdxYzS1ArQCi89OdCIAVygs5uNWFzFmVjCS9xI
+GET https://express-js-auth-api-demo.onrender.com/api/roles
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjZTNlNjBjOC1lNTQyLTRlZjMtYjVhNy1hNjI4ZmU0YTcxOTciLCJpYXQiOjE3OTA4MDMwNzksImV4cCI6MTc5MDgwMzk3OX0.AT_1478NML-5b2ADoui-LHIaSQGNTAyzHlyVp7FD6lI
 
 
