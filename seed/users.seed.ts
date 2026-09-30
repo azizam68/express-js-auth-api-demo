@@ -25,7 +25,13 @@ async function seed() {
       password: "Demo123!",
       firstName: "Demo",
       lastName: "User"
-    }
+    },
+    {
+      email: "admin@admin.com",
+      password: "Admin123!",
+      firstName: "Admin",
+      lastName: "User"
+    },
   ]
 
   for (const data of usersToCreate) {

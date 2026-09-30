@@ -5,25 +5,7 @@ import { publicUserColumns } from "../db/selections.js"
 import * as ZodValidator from "../validators/user.validator.js"
 import { eq, and } from "drizzle-orm"
 import argon2 from "argon2"
-
-function isUniqueViolation(error: unknown): boolean {
-  if (typeof error !== "object" || error === null) {
-    return false
-  }
-
-  if (!("cause" in error)) {
-    return false
-  }
-
-  const cause = error.cause
-
-  return (
-    typeof cause === "object" &&
-    cause !== null &&
-    "code" in cause &&
-    cause.code === "23505"
-  )
-}
+import { isUniqueViolation } from "../validators/validation.js"
 
 export async function getUsers(_req: Request, res: Response) {
   const result = await db

@@ -1,9 +1,16 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, beforeAll } from "vitest"
 import request from "supertest"
-
 import app from "../../src/app.js"
+import { createAuthenticatedUser } from "../../tests/helpers/auth.js"
 
 describe("PUT /api/users/:id", () => {
+  let user;
+  let accessToken;
+
+  beforeAll(async () => {
+    ({ user, accessToken } = await createAuthenticatedUser())
+  })
+
   it("replaces a user without exposing sensitive information", async () => {
     const email = `put-${Date.now()}@example.com`
 
@@ -13,6 +20,7 @@ describe("PUT /api/users/:id", () => {
         email,
         password: "oldpassword"
       })
+      .set("Authorization", `Bearer ${accessToken}`)
 
     expect(createResponse.status).toBe(201)
 
@@ -25,6 +33,7 @@ describe("PUT /api/users/:id", () => {
         password: "newpassword",
         isActive: false
       })
+      .set("Authorization", `Bearer ${accessToken}`)
 
     expect(response.status).toBe(200)
 

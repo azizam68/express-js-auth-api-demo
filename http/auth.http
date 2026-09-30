@@ -12,14 +12,14 @@ POST http://localhost:3333/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "test@example.com",
-  "password": "Test123!"
+  "email": "floriana@example.com",
+  "password": "test1230"
 }
 
 ### GET /api/auth/me
 GET http://localhost:3333/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YzgwMWJmOC0zMDY5LTRiYWUtODZlNy0wYzEzOGQ4M2RlYjAiLCJpYXQiOjE3OTAyNjEwODYsImV4cCI6MTc5MDI2MTk4Nn0.6MRkHlEi0u2f6wMStVascyy2ZSMyVz33klZKPrxCy1U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3MTE4OTYsImV4cCI6MTc5MDcxMjc5Nn0.9L3h7jcOtRmwM7xtDaQlfFTzoP6r1ZLb7Fgus926Y6U
 
 ### GET /api/admin
 GET http://localhost:3333/api/admin
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiMWZkM2Q1ZS1hMjY3LTRhODEtYTY5NC1hNzdjNmZlNTJhZDgiLCJpYXQiOjE3OTAyNjExODksImV4cCI6MTc5MDI2MjA4OX0.NbKs--rsF23s53qRO2y_ckQKAj3hrFYb8a_5mMz7geE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3MGE3NTJhYi1jMWEzLTQ1MmMtOWNmZC1jMmE5ZGY3NjNhZWMiLCJpYXQiOjE3OTA3MTE4OTYsImV4cCI6MTc5MDcxMjc5Nn0.9L3h7jcOtRmwM7xtDaQlfFTzoP6r1ZLb7Fgus926Y6U

@@ -21,7 +21,8 @@
     "db:seed:roles:test": "dotenv -e .env.test -- tsx seed/roles.seed.ts",
     "db:seed:users:test": "dotenv -e .env.test -- tsx seed/users.seed.ts",
     "db:seed:user-roles:test": "dotenv -e .env.test -- tsx seed/user-roles.seed.ts",
-    "db:seed:test": "npm run db:seed:roles && npm run db:seed:users && npm run db:seed:user-roles",
+    "db:seed:test": "npm run db:seed:roles:test && npm run db:seed:users:test && npm run db:seed:user-roles:test",
+    "db:reset:test": "dotenv -e .env.test -- tsx src/db/reset.ts",
 
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",

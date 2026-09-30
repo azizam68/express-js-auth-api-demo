@@ -1,9 +1,17 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, beforeAll } from "vitest"
 import request from "supertest"
+import { getAuthenticatedAdmin, createAuthenticatedUser } from "../../tests/helpers/auth.js"
 
 import app from "../../src/app.js"
 
 describe("GET /api/users/:id", () => {
+  let user;
+  let accessToken;
+
+  beforeAll(async () => {
+    ({ user, accessToken } = await createAuthenticatedUser())
+  })
+  
   it("returns a user", async () => {
     const email = `test-${Date.now()}@example.com`
     const password = "8characters"
@@ -14,11 +22,11 @@ describe("GET /api/users/:id", () => {
         email,
         password
       })
-
-
+      .set("Authorization", `Bearer ${accessToken}`)
 
     const listResponse = await request(app)
       .get("/api/users")
+      .set("Authorization", `Bearer ${accessToken}`)
 
     expect(listResponse.status).toBe(200)
     expect(listResponse.body).toBeInstanceOf(Array)
@@ -27,6 +35,7 @@ describe("GET /api/users/:id", () => {
 
     const response = await request(app)
       .get(`/api/users/${user.id}`)
+      .set("Authorization", `Bearer ${accessToken}`)
 
     expect(response.status).toBe(200)
     expect(response.body).toHaveProperty("id", user.id)
@@ -36,6 +45,7 @@ describe("GET /api/users/:id", () => {
   it("does not expose sensitive information", async () => {
     const listResponse = await request(app)
       .get("/api/users")
+      .set("Authorization", `Bearer ${accessToken}`)
 
     expect(listResponse.status).toBe(200)
     expect(listResponse.body).toBeInstanceOf(Array)
@@ -44,6 +54,7 @@ describe("GET /api/users/:id", () => {
 
     const response = await request(app)
       .get(`/api/users/${user.id}`)
+      .set("Authorization", `Bearer ${accessToken}`)
 
     expect(response.status).toBe(200)
     expect(response.body).not.toHaveProperty("passwordHash")

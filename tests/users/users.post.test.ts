@@ -1,20 +1,29 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, beforeAll } from "vitest"
 import request from "supertest"
+import { getAuthenticatedAdmin, createAuthenticatedUser } from "../../tests/helpers/auth.js"
 
 import app from "../../src/app.js"
 
 describe("POST /api/users", () => {
-it("returns 400 when request data is invalid", async () => {
-  const response = await request(app)
-    .post("/api/users")
-    .send({
-      objectMissing: {
-        unexpected: "data"
-      }
-    })
+  let user;
+  let accessToken;
 
-  expect(response.status).toBe(400)
-})
+  beforeAll(async () => {
+    ({ user, accessToken } = await createAuthenticatedUser())
+  })
+  
+  it("returns 400 when request data is invalid", async () => {
+    const response = await request(app)
+      .post("/api/users")
+      .send({
+        objectMissing: {
+          unexpected: "data"
+        }
+      })
+      .set("Authorization", `Bearer ${accessToken}`)
+
+    expect(response.status).toBe(400)
+  })
 
   it("creates a user without exposing sensitive information", async () => {
     const email = `test-${Date.now()}@example.com`
@@ -26,6 +35,7 @@ it("returns 400 when request data is invalid", async () => {
         email,
         password
       })
+      .set("Authorization", `Bearer ${accessToken}`)
 
     expect(response.status).toBe(201)
 

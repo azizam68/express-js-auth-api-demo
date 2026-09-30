@@ -6,7 +6,8 @@ import { createAccessToken } from "../auth/jwt.js"
 import { db } from "../config/database.js"
 import { users } from "../db/schema.js"
 import { publicUserColumns } from "../db/selections.js"
-import { loginSchema } from "../validators/auth.validator.js"
+import { loginSchema, registerSchema } from "../validators/auth.validator.js"
+import { isUniqueViolation } from "../validators/validation.js"
 
 export async function login(req: Request, res: Response) {
   const result = loginSchema.safeParse(req.body)
@@ -28,7 +29,7 @@ export async function login(req: Request, res: Response) {
     })
     .from(users)
     .where(eq(users.email, result.data.email))
-    if (!user || !user.isActive) {
+  if (!user || !user.isActive) {
     res.status(401).json({
       error: "Invalid credentials"
     })
@@ -72,4 +73,44 @@ export async function me(req: Request, res: Response) {
   }
 
   res.json(user)
+}
+
+export const register = async (req: Request, res: Response) => {
+  const result = registerSchema.safeParse(req.body)
+
+  if (!result.success) {
+    res.status(400).json({
+      error: "Invalid register form",
+      details: result.error.issues
+    })
+
+    return
+  }
+
+  const { email, password } = result.data
+
+  const passwordHash = await argon2.hash(password)
+
+    try {
+      const [user] = await db
+        .insert(users)
+        .values({
+          email: result.data.email,
+          passwordHash
+        })
+        .returning(publicUserColumns)
+  
+      res.status(201).json(user)
+    } catch (error) {
+      if (isUniqueViolation(error)) {
+        res.status(409).json({
+          error: "Email already exists"
+        })
+  
+        return
+      }
+  
+      throw error
+    }
+
 }

@@ -11,6 +11,7 @@ import adminRoutes from "./routes/admin.routes.js"
 
 import { notFound } from "./middlewares/notFound.js"
 import { errorMiddleware } from "./middlewares/error.middleware.js"
+import { authenticate } from "./middlewares/auth.middleware.js"
 
 const __dirname = path.resolve(".")
 
@@ -21,10 +22,11 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, "./public")))
 
 app.use("/api", healthRoutes)
-app.use("/api/users", usersRouter)
-app.use("/api/roles", rolesRouter)
 app.use("/api/auth", authRouter)
-app.use("/api/admin", adminRoutes)
+
+app.use("/api/users", authenticate, usersRouter)
+app.use("/api/roles", authenticate, rolesRouter)
+app.use("/api/admin", authenticate, adminRoutes)
 
 // 404 : doit être après toutes les routes
 app.use(notFound)

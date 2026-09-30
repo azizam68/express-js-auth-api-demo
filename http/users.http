@@ -7,7 +7,8 @@ POST http://localhost:3333/api/users
 Content-Type: application/json
 
 {
-  "email": "alice33@example.com"
+  "email": "friana@example.com",
+  "password": "test1230"
 }
 
 
@@ -56,10 +57,10 @@ Content-Type: application/json
 DELETE http://localhost:3333/api/users/965952f8-b74a-4488-a18c-d105850e0ca6
 
 ### add role to a user
-GET /api/users/8c801bf8-3069-4bae-86e7-0c138d83deb0/roles
+GET http://localhost:3333/api/users/70a752ab-c1a3-452c-9cfd-c2a9df763aec/roles
 
 ### add role to a user
-POST /api/users/8c801bf8-3069-4bae-86e7-0c138d83deb0/roles
+POST http://localhost:3333/api/users/70a752ab-c1a3-452c-9cfd-c2a9df763aec/roles
 Content-Type: application/json
 
 {
