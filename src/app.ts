@@ -1,5 +1,4 @@
-import "dotenv/config"
-
+// file: /src/app.ts
 import express from "express"
 import path from "path"
 
