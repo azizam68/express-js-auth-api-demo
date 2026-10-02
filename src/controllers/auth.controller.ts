@@ -6,13 +6,12 @@ import { createAccessToken } from "../auth/jwt.js";
 import { db } from "../config/database.js";
 import { users } from "../db/schema.js";
 import { publicUserColumns } from "../db/selections.js";
-import { loginSchema, registerSchema } from "../validators/auth.validator.js";
+import * as authValidator from "../validators/auth.validator.js";
 import { isUniqueViolation } from "../validators/validation.js";
-import { refreshSchema } from "../validators/auth.validator.js"
-import { rotateRefreshToken } from "../auth/refreshTokens.js"
+import { rotateRefreshToken, revokeRefreshToken } from "../auth/refreshTokens.js"
 
 export async function login(req: Request, res: Response) {
-  const result = loginSchema.safeParse(req.body);
+  const result = authValidator.loginSchema.safeParse(req.body);
 
   if (!result.success) {
     res.status(400).json({
@@ -77,7 +76,7 @@ export async function me(req: Request, res: Response) {
 }
 
 export const register = async (req: Request, res: Response) => {
-  const result = registerSchema.safeParse(req.body);
+  const result = authValidator.registerSchema.safeParse(req.body);
 
   if (!result.success) {
     res.status(400).json({
@@ -116,7 +115,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export async function refresh(req: Request, res: Response) {
-  const result = refreshSchema.safeParse(req.body)
+  const result = authValidator.refreshSchema.safeParse(req.body)
 
   if (!result.success) {
     res.status(401).json({ error: "Invalid refresh token" })
@@ -144,4 +143,14 @@ export async function refresh(req: Request, res: Response) {
     accessToken: createAccessToken(rotated.userId),
     refreshToken: rotated.newToken
   })
+}
+
+export async function logout(req: Request, res: Response) {
+  const result = authValidator.refreshSchema.safeParse(req.body)
+
+  if (result.success) {
+    await revokeRefreshToken(result.data.refreshToken)
+  }
+
+  res.sendStatus(204)
 }
