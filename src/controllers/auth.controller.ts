@@ -8,7 +8,11 @@ import { users } from "../db/schema.js";
 import { publicUserColumns } from "../db/selections.js";
 import * as authValidator from "../validators/auth.validator.js";
 import { isUniqueViolation } from "../validators/validation.js";
-import { rotateRefreshToken, revokeRefreshToken } from "../auth/refreshTokens.js"
+import {
+  createRefreshToken,
+  rotateRefreshToken,
+  revokeRefreshToken,
+} from "../auth/refreshTokens.js";
 
 export async function login(req: Request, res: Response) {
   const result = authValidator.loginSchema.safeParse(req.body);
@@ -51,11 +55,13 @@ export async function login(req: Request, res: Response) {
     return;
   }
 
-  const accessToken = createAccessToken(user.id); // JWT
+  const accessToken = createAccessToken(user.id)
+  const refreshToken = await createRefreshToken(user.id)
 
   res.json({
     accessToken,
-  });
+    refreshToken
+  })
 }
 
 export async function me(req: Request, res: Response) {
@@ -115,42 +121,42 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export async function refresh(req: Request, res: Response) {
-  const result = authValidator.refreshSchema.safeParse(req.body)
+  const result = authValidator.refreshSchema.safeParse(req.body);
 
   if (!result.success) {
-    res.status(401).json({ error: "Invalid refresh token" })
-    return
+    res.status(401).json({ error: "Invalid refresh token" });
+    return;
   }
 
-  const rotated = await rotateRefreshToken(result.data.refreshToken)
+  const rotated = await rotateRefreshToken(result.data.refreshToken);
 
   if (!rotated) {
-    res.status(401).json({ error: "Invalid refresh token" })
-    return
+    res.status(401).json({ error: "Invalid refresh token" });
+    return;
   }
 
   const [user] = await db
     .select({ isActive: users.isActive })
     .from(users)
-    .where(eq(users.id, rotated.userId))
+    .where(eq(users.id, rotated.userId));
 
   if (!user || !user.isActive) {
-    res.status(401).json({ error: "Invalid refresh token" })
-    return
+    res.status(401).json({ error: "Invalid refresh token" });
+    return;
   }
 
   res.json({
     accessToken: createAccessToken(rotated.userId),
-    refreshToken: rotated.newToken
-  })
+    refreshToken: rotated.newToken,
+  });
 }
 
 export async function logout(req: Request, res: Response) {
-  const result = authValidator.refreshSchema.safeParse(req.body)
+  const result = authValidator.refreshSchema.safeParse(req.body);
 
   if (result.success) {
-    await revokeRefreshToken(result.data.refreshToken)
+    await revokeRefreshToken(result.data.refreshToken);
   }
 
-  res.sendStatus(204)
+  res.sendStatus(204);
 }
